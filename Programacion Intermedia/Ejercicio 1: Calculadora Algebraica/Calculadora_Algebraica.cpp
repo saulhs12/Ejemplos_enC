@@ -1,6 +1,6 @@
 //Calculadora Algebraica
 //Hecho por Saúl Herrera Saavedra
-//github#include <iostream>
+//https://github.com/saulhs12/Ejemplos_enC
 #include <iostream>
 #include <math.h>
 using namespace std;
@@ -13,7 +13,7 @@ typedef struct raiz_Cuadrada{
 //Estructura que contiene una solucion de tipo raiz_cuadratica y una solucion de tipo Real
 typedef struct raiz_Cubica{
     raiz_Cuadrada sol_1c;
-    int sol_3;
+    double sol_3;
     
 }raiz_Cubica;
 //Estructura que contiene las coordenadas de un punto
@@ -81,43 +81,48 @@ tipo raiz_Cubica que contiene las soluciones de la
 ecuacion cubica dada por el usuario
 la funcion recibe 4 datos de tipo double que son los
 coeficientes de la ecuacion*/
-raiz_Cubica raices_cubicas(double x1,double x2,double x3,double ind){
+raiz_Cubica raices_cubicas(int x3,int x2,int x1,int ind){
     //cantidad de numeros * 2 para el algoritmo de Rufinni
-    int i = -1000;
-    //Declaracion de lo que la funcion va a devolver
     raiz_Cubica solucion;
+    
+    //Declaracion de lo que la funcion va a devolver
     // El programa recorre 2000 numeros para encontrar
     // el numero necesario para el algoritmo de Rufinivoid
     //declaracion de los coeficientes necesarios para resolver la ecuacion c
     //cuadratica que se forma gracias a rufini
+    int caso_p;
+    // Variables necesarias para Rufini
+	int n_x2,n_x1,n_ind,  z_x,z_x2,z_x1,z_ind;
     double a,b,c;
-    while (i <= 1000)
+		
+    caso_p = 10;
+    
+    int min= -caso_p;
+    //Algoritmo de Rufini (Lo hice hace mucho ya ni lo entiendo, pero funciona xd)
+    while (min<= caso_p)
     {
-        // Variables necesarias para Rufini
-        int n_x2,n_x1,n_ind,z_x,z_x2,z_x1,z_ind;
-        //Algoritmo de Rufini (Lo hice hace mucho ya ni lo entiendo, pero funciona xd)
-        n_x2 = i * x3;
-        z_x2 = n_x2 + x2;
-        n_x1 = i * z_x2;
+        n_x2 = min * x3;
+        z_x2 = n_x2+ x2;
+        n_x1 = min * z_x2;
         z_x1 = x1 + n_x1;
-        n_ind = i * z_x1;
+        n_ind = min * z_x1;
         z_ind = ind + n_ind;
         //condicion para encontrar la solucion real entera
         if(z_ind == 0){
-            //Se forman los coeficientes para resolver una ecuacion cuadratica
             a = x3;
             b = z_x2;
             c = z_x1;
-            //Solucion Real entera
-            solucion.sol_3 = i;
+            cout<<a<<endl;
+            cout<<b<<endl;
+            cout<<c<<endl;
+            solucion.sol_3 = min;
         }
-        //Incremento de i
-        i++;
+        //printf("i: %d solucion: %.1f",min ,sol_x1);
+        min++;
     }
     //Le asignamos a los primeros dos soluciones llamando a la funcion raices_cuadraticas con
     //los parametros de a,b,c que obtuvimmos anteriormente
     solucion.sol_1c = raices_cuadradas(a,b,c);
-    double sol_real;
     //cout<<"Solución 1: "<<sol_real<<" +("<<solucion.sol_1c.sol_1<<") i"<<endl;
     //cout<<"Solución 2: "<<sol_real<<" +("<<solucion.sol_1c.sol_2<<") i"<<endl;
     //imprime la solucion real
@@ -158,11 +163,11 @@ void Menu(int seleccion){
         //ec Cuadratica
         double a,b,c;
         //El usuario ingresa los coeficientes de la ecuacion
-        cout<<"Ingresa el coeficiente de x^2"<<endl;
+        cout<<"Ingresa el coeficiente de x^2: ";
         cin>>a;
-        cout<<"Ingresa el coeficiente de x"<<endl;
+        cout<<"Ingresa el coeficiente de x: ";
         cin>>b;
-        cout<<"Ingresa el término independiente"<<endl;
+        cout<<"Ingresa el término independiente: ";
         cin>>c;
         //Llamada a la funcion con los parametros ingresados por el usuario
         raices_cuadradas(a,b,c);
@@ -172,13 +177,13 @@ void Menu(int seleccion){
         //ec cubica
         double x1,x2,x3,ind;
         //El usuario ingresa los coeficientes de la ecuacion
-        cout<<"Ingresa el coeficiente de x^3"<<endl;
+        cout<<"Ingresa el coeficiente de x^3: ";
         cin>>x3;
-        cout<<"Ingresa el coeficiente de x^2"<<endl;
+        cout<<"Ingresa el coeficiente de x^2: ";
         cin>>x2;
-        cout<<"Ingresa el coeficiente de x"<<endl;
+        cout<<"Ingresa el coeficiente de x: ";
         cin>>x1;
-        cout<<"Ingresa el término independiente"<<endl;
+        cout<<"Ingresa el término independiente: ";
         cin>>ind;
         //Llamada a la funcion con los parametros ingresados por el usuario
         raices_cubicas(x3,x2,x1,ind);

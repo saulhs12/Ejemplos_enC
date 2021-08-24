@@ -5,28 +5,29 @@
 #include <math.h>
 using namespace std;
 
+//Estructura que contiene dos soluciones de tipo reales de la ecuacion cuadratica
 typedef struct raiz_Cuadrada{
     double sol_1;
     double sol_2;
 }raiz_Cuadrada;
-
+//Estructura que contiene una solucion de tipo raiz_cuadratica y una solucion de tipo Real
 typedef struct raiz_Cubica{
     raiz_Cuadrada sol_1c;
     int sol_3;
     
 }raiz_Cubica;
+//Estructura que contiene las coordenadas de un punto
 typedef struct Punto
 {
     double x;
     double y;
 }Punto;
+//Estructura que contiene los dos puntos de una recta
 typedef struct Recta
 {
     Punto punto_1;
     Punto punto_2;
 }Recta;
-
-
 
 
 /* Funcion que devuelve una estructura de datos de 
@@ -75,41 +76,56 @@ raiz_Cuadrada raices_cuadradas(double a, double b, double c){
     return soluciones;
 }
 
-
+/*Funcion que devuelve una estructura de datos de 
+tipo raiz_Cubica que contiene las soluciones de la 
+ecuacion cubica dada por el usuario
+la funcion recibe 4 datos de tipo double que son los
+coeficientes de la ecuacion*/
 raiz_Cubica raices_cubicas(double x1,double x2,double x3,double ind){
+    //cantidad de numeros * 2 para el algoritmo de Rufinni
     int i = -1000;
+    //Declaracion de lo que la funcion va a devolver
     raiz_Cubica solucion;
     // El programa recorre 2000 numeros para encontrar
     // el numero necesario para el algoritmo de Rufinivoid
+    //declaracion de los coeficientes necesarios para resolver la ecuacion c
+    //cuadratica que se forma gracias a rufini
     double a,b,c;
     while (i <= 1000)
     {
         // Variables necesarias para Rufini
         int n_x2,n_x1,n_ind,z_x,z_x2,z_x1,z_ind;
+        //Algoritmo de Rufini (Lo hice hace mucho ya ni lo entiendo, pero funciona xd)
         n_x2 = i * x3;
         z_x2 = n_x2 + x2;
         n_x1 = i * z_x2;
         z_x1 = x1 + n_x1;
         n_ind = i * z_x1;
         z_ind = ind + n_ind;
-
+        //condicion para encontrar la solucion real entera
         if(z_ind == 0){
-            
+            //Se forman los coeficientes para resolver una ecuacion cuadratica
             a = x3;
             b = z_x2;
             c = z_x1;
+            //Solucion Real entera
             solucion.sol_3 = i;
         }
+        //Incremento de i
         i++;
     }
-    
+    //Le asignamos a los primeros dos soluciones llamando a la funcion raices_cuadraticas con
+    //los parametros de a,b,c que obtuvimmos anteriormente
     solucion.sol_1c = raices_cuadradas(a,b,c);
     double sol_real;
     //cout<<"Solución 1: "<<sol_real<<" +("<<solucion.sol_1c.sol_1<<") i"<<endl;
     //cout<<"Solución 2: "<<sol_real<<" +("<<solucion.sol_1c.sol_2<<") i"<<endl;
+    //imprime la solucion real
     cout<<"Solucion 3: "<<solucion.sol_3<<endl; 
+    //se devuelven ambas soluciones
     return solucion;
 }
+//Funcion para crear un punto
 Punto crear_Punto(struct Punto punto ){
     cout<<"Ingresa los valores del punto "<<endl;
     cout<<"x = ";
@@ -118,36 +134,44 @@ Punto crear_Punto(struct Punto punto ){
     cin>>punto.y;
     return punto;
 }
+//Funcion para sacar la raiz de la recta
 double raiz_recta(Recta recta){
+    //declaramo la pendiente (m) y b
     double m,b;
+    //calculamos la pendiente
     m = (recta.punto_2.y - recta.punto_1.y)/(recta.punto_2.x-recta.punto_1.x);
+    // calculamos b
     b = recta.punto_1.y -(m*recta.punto_1.x);
+    // calculamos la raiz
     double raiz= -b/m;
+    //imprimimos los resultados
     cout<<"---------------------"<<endl;
     cout<<"m: "<<m<<endl;
     cout<<"b: "<<b<<endl;
     cout<<"La raiz es: "<<raiz<<endl;
     return raiz;
 }
-
+//funcion del menu
 void Menu(int seleccion){
     if (seleccion == 1)
     {
-        double a,b,c;
         //ec Cuadratica
+        double a,b,c;
+        //El usuario ingresa los coeficientes de la ecuacion
         cout<<"Ingresa el coeficiente de x^2"<<endl;
         cin>>a;
         cout<<"Ingresa el coeficiente de x"<<endl;
         cin>>b;
         cout<<"Ingresa el término independiente"<<endl;
         cin>>c;
+        //Llamada a la funcion con los parametros ingresados por el usuario
         raices_cuadradas(a,b,c);
 
     }   
     else if(seleccion==2){
         //ec cubica
         double x1,x2,x3,ind;
-        //ec Cuadratica
+        //El usuario ingresa los coeficientes de la ecuacion
         cout<<"Ingresa el coeficiente de x^3"<<endl;
         cin>>x3;
         cout<<"Ingresa el coeficiente de x^2"<<endl;
@@ -156,20 +180,25 @@ void Menu(int seleccion){
         cin>>x1;
         cout<<"Ingresa el término independiente"<<endl;
         cin>>ind;
+        //Llamada a la funcion con los parametros ingresados por el usuario
         raices_cubicas(x3,x2,x1,ind);
     }
     else if(seleccion==3){
         //recta
         Punto punto_1,punto_2;
         Recta recta;
+        //el usuario crea los puntos necesarios
         cout<<"Ingresa las coordenadas del punto 1"<<endl;
         punto_1=crear_Punto(punto_1);
         cout<<"Ingresa las coordenadas del punto 2"<<endl;
         punto_2=crear_Punto(punto_2);
+        //se crea la recta a partir de los dos puntos
         recta.punto_1=punto_1;
         recta.punto_2=punto_2;
+        //se llama a la funcion y como parametro la recta ya construida
         raiz_recta(recta);
     }
+    //por si el usuario ingresa algo erroneo
     else{
         cout<<"Por favor ingresa un número válido del Menú"<<endl;
     }
@@ -182,7 +211,6 @@ int main() {
     int seleccion = 0;
  
     //Ciclo do while para un menu hasta que el usuario lo quiera terminar
-    
     do
         {
             int *i;

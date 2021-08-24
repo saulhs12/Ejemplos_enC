@@ -1,8 +1,6 @@
 //Calculadora Algebraica
 //Hecho por Saúl Herrera Saavedra
 //github#include <iostream>
-
-
 #include <iostream>
 #include <math.h>
 using namespace std;
@@ -17,6 +15,18 @@ typedef struct raiz_Cubica{
     int sol_3;
     
 }raiz_Cubica;
+typedef struct Punto
+{
+    double x;
+    double y;
+}Punto;
+typedef struct Recta
+{
+    Punto punto_1;
+    Punto punto_2;
+}Recta;
+
+
 
 
 /* Funcion que devuelve una estructura de datos de 
@@ -55,7 +65,7 @@ raiz_Cuadrada raices_cuadradas(double a, double b, double c){
         cout<<"Solucion 2: "<<sol_real<<" +("<<soluciones.sol_2<<") i"<<endl;
     }
     else{
-        //imprime las soluciones
+        //imprime las solucionesvoid
         soluciones.sol_1= (-b + sqrt(dentro_raiz))/2*a;
         soluciones.sol_2= (-b- sqrt(dentro_raiz))/2*a;
         cout<<"Solucion 1: "<<soluciones.sol_1<<endl;
@@ -66,11 +76,11 @@ raiz_Cuadrada raices_cuadradas(double a, double b, double c){
 }
 
 
-void raices_cubicas(double x1,double x2,double x3,double ind){
+raiz_Cubica raices_cubicas(double x1,double x2,double x3,double ind){
     int i = -1000;
     raiz_Cubica solucion;
     // El programa recorre 2000 numeros para encontrar
-    // el numero necesario para el algoritmo de Rufini
+    // el numero necesario para el algoritmo de Rufinivoid
     double a,b,c;
     while (i <= 1000)
     {
@@ -97,12 +107,27 @@ void raices_cubicas(double x1,double x2,double x3,double ind){
     double sol_real;
     //cout<<"Solución 1: "<<sol_real<<" +("<<solucion.sol_1c.sol_1<<") i"<<endl;
     //cout<<"Solución 2: "<<sol_real<<" +("<<solucion.sol_1c.sol_2<<") i"<<endl;
-    cout<<"Solucion 3: "<<solucion.sol_3<<endl;
-    
-    
-  
-
-    
+    cout<<"Solucion 3: "<<solucion.sol_3<<endl; 
+    return solucion;
+}
+Punto crear_Punto(struct Punto punto ){
+    cout<<"Ingresa los valores del punto "<<endl;
+    cout<<"x = ";
+    cin>>punto.x;
+    cout<<"y = ";
+    cin>>punto.y;
+    return punto;
+}
+double raiz_recta(Recta recta){
+    double m,b;
+    m = (recta.punto_2.y - recta.punto_1.y)/(recta.punto_2.x-recta.punto_1.x);
+    b = recta.punto_1.y -(m*recta.punto_1.x);
+    double raiz= -b/m;
+    cout<<"---------------------"<<endl;
+    cout<<"m: "<<m<<endl;
+    cout<<"b: "<<b<<endl;
+    cout<<"La raiz es: "<<raiz<<endl;
+    return raiz;
 }
 
 void Menu(int seleccion){
@@ -135,7 +160,15 @@ void Menu(int seleccion){
     }
     else if(seleccion==3){
         //recta
-        
+        Punto punto_1,punto_2;
+        Recta recta;
+        cout<<"Ingresa las coordenadas del punto 1"<<endl;
+        punto_1=crear_Punto(punto_1);
+        cout<<"Ingresa las coordenadas del punto 2"<<endl;
+        punto_2=crear_Punto(punto_2);
+        recta.punto_1=punto_1;
+        recta.punto_2=punto_2;
+        raiz_recta(recta);
     }
     else{
         cout<<"Por favor ingresa un número válido del Menú"<<endl;
